@@ -1,0 +1,12 @@
+#!/usr/bin/env php
+<?php
+/**
+ * this file is part of ziggy
+ *
+ * @author Mr. Lewis <https://github.com/lewisvoncken>
+ */
+
+$application = require __DIR__.'/../src/bootstrap.php';
+$application->run();
+
+__halt_compiler();

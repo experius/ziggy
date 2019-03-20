@@ -1,0 +1,38 @@
+application:
+  check-root-user: true
+
+twig:
+  baseDirs:
+
+plugin:
+  folders:
+    - /usr/local/share/pimmand/modules
+
+helpers:
+
+script:
+  folders:
+    - /usr/local/share/pimmand/scripts
+
+init:
+  code: admin
+  type: store
+  options: []
+
+detect:
+  subFolders:
+    - web
+    - www
+    - htdocs
+    - public
+    - pub
+    - webroot
+    - web-root
+    - wwwroot
+
+commands:
+  customCommands:
+    - Experius\Akeneo\Command\UserManagement\ListCommand
+    - Experius\Akeneo\Command\UserManagement\DeleteUserCommand
+
+  aliases: []

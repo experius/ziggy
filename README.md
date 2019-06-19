@@ -95,6 +95,21 @@ ID can be e-mail or username. The command will attempt to find the user by usern
 
 ID can be e-mail or username. The command will attempt to find the user by username first and if it cannot be found it will attempt to find the user by e-mail. If ID or password is omitted you will be prompted for it. If the force parameter "-f" is omitted you will be prompted for confirmation.
 
+### Create PIM user
+
+    $ ziggy.phar pim:user:create [options]
+
+      Options:
+            --username[=USERNAME]
+            --password[=PASSWORD]
+            --firstname[=FIRSTNAME]
+            --lastname[=LASTNAME]
+            --email[=EMAIL]
+            --user-default-locale-code[=USER-DEFAULT-LOCALE-CODE]
+            --catalog-default-locale-code[=CATALOG-DEFAULT-LOCALE-CODE]
+            --catalog-default-scope-code[=CATALOG-DEFAULT-SCOPE-CODE]
+            --default-tree-code[=DEFAULT-TREE-CODE]
+
 
 ## Thanks to
 

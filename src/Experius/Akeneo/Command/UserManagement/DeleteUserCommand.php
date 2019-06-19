@@ -52,7 +52,7 @@ class DeleteUserCommand extends AbstractAkeneoCommand
 
         $userManager = $this->getContainer()->get('pim_user.manager');
         /** @var User $user */
-        $user = $userManager->findUserByUsername($id);
+        $user = $userManager->findUserByUsernameOrEmail($id);
 
         if (null === $user) {
             throw new \InvalidArgumentException(sprintf('User with id %d could not be found.', $id));

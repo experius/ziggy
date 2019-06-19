@@ -34,5 +34,6 @@ commands:
   customCommands:
     - Experius\Akeneo\Command\UserManagement\ListCommand
     - Experius\Akeneo\Command\UserManagement\DeleteUserCommand
+    - Experius\Akeneo\Command\UserManagement\ChangePasswordCommand
 
   aliases: []

@@ -89,6 +89,13 @@ Global config parameters:
 
 ID can be e-mail or username. The command will attempt to find the user by username first and if it cannot be found it will attempt to find the user by e-mail. If ID is omitted you will be prompted for it. If the force parameter "-f" is omitted you will be prompted for confirmation.
 
+### Change Password PIM user
+
+    $ ziggy.phar pim:user:change-password [email|username] [password]
+
+ID can be e-mail or username. The command will attempt to find the user by username first and if it cannot be found it will attempt to find the user by e-mail. If ID or password is omitted you will be prompted for it. If the force parameter "-f" is omitted you will be prompted for confirmation.
+
+
 ## Thanks to
 
  * Everyone who is raising a Ziggy! https://ziggy.akeneo.com/

@@ -78,24 +78,35 @@ Global config parameters:
       Do not load any custom config.
     --skip-root-check
       Do not check if ziggy runs as root.
-      
-### List PIM users
+
+### Media
+#### Images - Remove Orphans
+Remove orphaned files from disk (orphans are files which do exist but are not found the database).
+
+    $ ziggy.phar media:images:removeorphans
+
+### PIM User Management      
+#### List PIM users
+List all PIM users.
 
     $ ziggy.phar pim:user:list
 
-### Delete PIM user
+#### Delete PIM user
+Deletes a PIM user.
 
     $ ziggy.phar pim:user:delete [email|username]
 
 ID can be e-mail or username. The command will attempt to find the user by username first and if it cannot be found it will attempt to find the user by e-mail. If ID is omitted you will be prompted for it. If the force parameter "-f" is omitted you will be prompted for confirmation.
 
-### Change Password PIM user
+#### Change Password PIM user
+Changes the password for a PIM user.
 
     $ ziggy.phar pim:user:change-password [email|username] [password]
 
 ID can be e-mail or username. The command will attempt to find the user by username first and if it cannot be found it will attempt to find the user by e-mail. If ID or password is omitted you will be prompted for it. If the force parameter "-f" is omitted you will be prompted for confirmation.
 
-### Create PIM user
+#### Create PIM user
+Creates a PIM user.
 
     $ ziggy.phar pim:user:create [options]
 

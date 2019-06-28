@@ -29,7 +29,7 @@ class ListCommand extends AbstractAkeneoCommand
     {
         $this
             ->setName(static::COMMAND_NAME)
-            ->setDescription('List all PIM users.');
+            ->setDescription('List all PIM users. [Ziggy by Experius]');
     }
 
     /**

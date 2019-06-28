@@ -40,7 +40,7 @@ class CreateUserCommand extends AbstractAkeneoCommand
             ->addOption('catalog-default-locale-code', null, InputOption::VALUE_OPTIONAL)
             ->addOption('catalog-default-scope-code', null, InputOption::VALUE_OPTIONAL)
             ->addOption('default-tree-code', null, InputOption::VALUE_OPTIONAL)
-            ->setDescription('Creates a PIM user.');
+            ->setDescription('Creates a PIM user. [Ziggy by Experius]');
     }
 
     /**
@@ -48,9 +48,10 @@ class CreateUserCommand extends AbstractAkeneoCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $output->writeln("Please enter the user's information below.");
+        $this->detectAkeneo($output);
 
         if (($username = $input->getOption('username')) == null) {
+            $output->writeln("Please enter the user's information below.");
             $username = $this->askForUsername($input, $output);
         }
         if (($password = $input->getOption('password')) == null) {

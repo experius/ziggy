@@ -35,7 +35,7 @@ class ChangePasswordCommand extends AbstractAkeneoCommand
             ->addArgument('id', InputArgument::OPTIONAL, 'Username or Email')
             ->addArgument('password', InputArgument::OPTIONAL, 'Password')
             ->addOption('force', 'f', InputOption::VALUE_NONE, 'Force')
-            ->setDescription('Changes the password for a PIM user.');
+            ->setDescription('Changes the password for a PIM user. [Ziggy by Experius]');
     }
 
     /**
@@ -44,10 +44,10 @@ class ChangePasswordCommand extends AbstractAkeneoCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->detectAkeneo($output);
-        $output->writeln("Please enter the user's information below.");
 
         // Username
         if (($id = $input->getArgument('id')) == null) {
+            $output->writeln("Please enter the user's information below.");
             $id = $this->askForUsername($input, $output);
         }
 

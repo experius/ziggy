@@ -34,7 +34,7 @@ class DeleteUserCommand extends AbstractAkeneoCommand
             ->setName(static::COMMAND_NAME)
             ->addArgument('id', InputArgument::OPTIONAL, 'Username or Email')
             ->addOption('force', 'f', InputOption::VALUE_NONE, 'Force')
-            ->setDescription('Deletes a PIM user.');
+            ->setDescription('Deletes a PIM user. [Ziggy by Experius]');
     }
 
     /**
@@ -43,10 +43,10 @@ class DeleteUserCommand extends AbstractAkeneoCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->detectAkeneo($output);
-        $output->writeln("Please enter the user's information below.");
 
         // Username
         if (($id = $input->getArgument('id')) == null) {
+            $output->writeln("Please enter the user's information below.");
             $id = $this->askForUsername($input, $output);
         }
 

@@ -5,14 +5,14 @@
  * @author Mr. Lewis <https://github.com/lewisvoncken>
  */
 
-namespace Experius\Akeneo\Command\Media\Images;
+namespace Experius\Akeneo\Command\Media\Files;
 
 use Experius\Akeneo\Command\AbstractAkeneoCommand;
 
 /**
  * Class AbstractCommand
  *
- * @package Experius\Akeneo\Command\Media\Images
+ * @package Experius\Akeneo\Command\Media\Files
  */
 class AbstractCommand extends AbstractAkeneoCommand
 {
@@ -135,49 +135,44 @@ class AbstractCommand extends AbstractAkeneoCommand
     /**
      * @return array
      */
-    protected function getProductModelImages()
+    protected function getProductModelMedia()
     {
-        $mediaAttribute = $this->getContainer()->get('pim_catalog.repository.attribute')->findMediaAttributeCodes();
-        $usedFiles = [];
         // product query builder factory
         $pqbFactory = $this->getContainer()->get('pim_catalog.query.product_model_query_builder_factory');
-        // returns a new instance of product query builder
-        $pqb = $pqbFactory->create([]);
-        $productsCursor = $pqb->execute();
-        foreach ($productsCursor as $product) {
-            $rawValues = $product->getRawValues();
-            foreach($mediaAttribute as $attribute) {
-                if(!empty($rawValues[$attribute]['<all_channels>']['<all_locales>'])) {
-                    $val = $rawValues[$attribute]['<all_channels>']['<all_locales>'];
-                    if(gettype($val) == 'string') {
-                        $usedFiles[] = $val;
-                    }
-                }
-            }
-        }
-
-        return $usedFiles;
+        return $this->getUsedFiles($pqbFactory);
     }
 
     /**
      * @return array
      */
-    protected function getProductImages()
+    protected function getProductMedia()
     {
-        $mediaAttribute = $this->getContainer()->get('pim_catalog.repository.attribute')->findMediaAttributeCodes();
-        $usedFiles = [];
         // product query builder factory
         $pqbFactory = $this->getContainer()->get('pim_catalog.query.product_query_builder_factory');
+        return $this->getUsedFiles($pqbFactory);
+    }
+
+    /**
+     * @param $pqbFactory
+     * @return array
+     */
+    protected function getUsedFiles($pqbFactory)
+    {
+        $usedFiles = [];
         // returns a new instance of product query builder
         $pqb = $pqbFactory->create([]);
         $productsCursor = $pqb->execute();
+        $mediaAttribute = $this->getContainer()->get('pim_catalog.repository.attribute')->findMediaAttributeCodes();
         foreach ($productsCursor as $product) {
             $rawValues = $product->getRawValues();
-            foreach($mediaAttribute as $attribute) {
-                if(!empty($rawValues[$attribute]['<all_channels>']['<all_locales>'])) {
-                    $val = $rawValues[$attribute]['<all_channels>']['<all_locales>'];
-                    if(gettype($val) == 'string') {
-                        $usedFiles[] = $val;
+            foreach ($mediaAttribute as $attribute) {
+                if (!empty($rawValues[$attribute])) {
+                    foreach ($rawValues[$attribute] as $channel => $localeValue) {
+                        foreach ($localeValue as $locale => $val) {
+                            if (is_string($val)) {
+                                $usedFiles[] = $val;
+                            }
+                        }
                     }
                 }
             }

@@ -80,10 +80,10 @@ Global config parameters:
       Do not check if ziggy runs as root.
 
 ### Media
-#### Images - Remove Orphans
+#### Files - Remove Orphans
 Remove orphaned files from disk (orphans are files which do exist but are not found the database).
 
-    $ ziggy.phar media:images:removeorphans
+    $ ziggy.phar media:files:removeorphans
 
 ### PIM User Management      
 #### List PIM users

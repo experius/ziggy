@@ -22,3 +22,8 @@
 
 * Added media commands
     - Images - Remove Orphans
+
+1.0.0-beta4
+
+* Updated media commands
+    - Renamed Images to Files for the Remove Orphans

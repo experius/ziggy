@@ -5,7 +5,7 @@
  * @author Mr. Lewis <https://github.com/lewisvoncken>
  */
 
-namespace Experius\Akeneo\Command\Media\Images;
+namespace Experius\Akeneo\Command\Media\Files;
 
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
@@ -16,7 +16,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
 /**
  * Class RemoveOrphansCommand
  *
- * @package Experius\Akeneo\Command\Media\Images
+ * @package Experius\Akeneo\Command\Media\Files
  */
 class RemoveOrphansCommand extends AbstractCommand
 {
@@ -26,7 +26,7 @@ class RemoveOrphansCommand extends AbstractCommand
     protected function configure()
     {
         $this
-            ->setName('media:images:removeorphans')
+            ->setName('media:files:removeorphans')
             ->addOption('dry-run', 'd', InputOption::VALUE_NONE, 'Dry run? (yes|no)')
             ->addOption('limit', 'l', InputOption::VALUE_OPTIONAL, 'Only search first L files (useful for testing)')
             ->setDescription('Remove orphaned files from disk (orphans are files which do exist but are not found the database). [Ziggy by Experius]');
@@ -105,15 +105,15 @@ class RemoveOrphansCommand extends AbstractCommand
         $this->advanceNextStep();
         !$quiet && $output->writeln("\n<comment>Reading database data</comment> ({$currentStep}/{$totalSteps})");
 
-        $usedImages = array_merge($this->getProductModelImages(), $this->getProductImages());
+        $usedMedia = array_merge($this->getProductModelMedia(), $this->getProductMedia());
 
         $mediaFilesToRemove = [];
         $sizeBefore = 0;
         $sizeAfter = 0;
-        array_walk($mediaFilesHashes, function($hashInfo) use ($mediaBaseDir, &$mediaFilesToRemove, &$sizeBefore, &$sizeAfter, &$usedImages) {
+        array_walk($mediaFilesHashes, function($hashInfo) use ($mediaBaseDir, &$mediaFilesToRemove, &$sizeBefore, &$sizeAfter, &$usedMedia) {
             $sizeBefore += $hashInfo['size'];
             $file = str_replace($mediaBaseDir . DIRECTORY_SEPARATOR, '', $hashInfo['file']);
-            if (in_array($file, $usedImages)) {
+            if (in_array($file, $usedMedia)) {
                 // Exists in gallery or values
                 $sizeAfter += $hashInfo['size'];
                 return;

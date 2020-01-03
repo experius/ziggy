@@ -51,15 +51,13 @@ class CleanTablesCommand extends AbstractCommand
         $mediaBaseDir = $this->getMediaBase();
 
         $filesToRemove = $this->getRecordsToRemove($mediaBaseDir, $input, $output);
-        print($filesToRemove);
         $this->showStats($filesToRemove['stats'], $output);
 
         if ($dryRun) {
             return 0;
         }
 
-//        $this->deleteValuesFromCatalogDb($filesToRemove['values'], $input, $output);
-//        $this->deleteGalleryFromCatalogDb($filesToRemove['gallery'], $input, $output);
+        $this->deleteValuesFromCatalogDb($filesToRemove['values'], $input, $output);
 
         return 0;
     }
@@ -71,34 +69,23 @@ class CleanTablesCommand extends AbstractCommand
 //     * @param InputInterface $input
 //     * @param OutputInterface $output
 //     * @return int
+
+//$usedFiles[$val] = [
+//'attribute' => $attribute,
+//'channel' => $channel,
+//'locale' => $locale,
+//'product' => $product
+//];
 //     */
-//    protected function deleteValuesFromCatalogDb(&$mediaValuesToDelete, InputInterface $input, OutputInterface $output)
-//    {
-//        /** @var \Mage_Core_Model_Resource $resource */
-//        $resource = $this->getModel('core/resource', '\Mage_Core_Model_Resource');
-//
-//        $varcharTable = $resource->getTableName('catalog/product') . '_varchar';
-//
-//        return $this->deleteFromCatalogDb($mediaValuesToDelete, $varcharTable, $input, $output);
-//    }
-//
-//    /**
-//     * Update database records to match
-//     *
-//     * @param array $mediaGalleryToDelete
-//     * @param InputInterface $input
-//     * @param OutputInterface $output
-//     * @return int
-//     */
-//    protected function deleteGalleryFromCatalogDb(&$mediaGalleryToDelete, InputInterface $input, OutputInterface $output)
-//    {
-//        /** @var \Mage_Core_Model_Resource $resource */
-//        $resource = $this->getModel('core/resource', '\Mage_Core_Model_Resource');
-//
-//        $varcharTable = $resource->getTableName('catalog/product') . '_media_gallery';
-//
-//        return $this->deleteFromCatalogDb($mediaGalleryToDelete, $varcharTable, $input, $output);
-//    }
+    protected function deleteValuesFromCatalogDb(&$mediaValuesToDelete, InputInterface $input, OutputInterface $output)
+    {
+        foreach ($mediaValuesToDelete as $mediaValueToDelete){
+            $this->getUsedFiles();
+        }
+
+        return $this->deleteFromCatalogDb($mediaValuesToDelete, $varcharTable, $input, $output);
+    }
+
 //
 //    /**
 //     * Update database records to match
@@ -213,25 +200,26 @@ class CleanTablesCommand extends AbstractCommand
             },
             array_flip(
                 array_map(function ($file) use ($mediaBaseDir) {
-                    return str_replace($mediaBaseDir, '', $file);
+                    return ltrim(str_replace($mediaBaseDir, '', $file), '/');
                 },
-                    $this->getMediaFiles($mediaBaseDir)))
+                    $this->getMediaFiles($mediaBaseDir))
         );
 
         $currentStep = $this->getCurrentStep();
         $this->advanceNextStep();
         !$quiet && $output->writeln("<comment>Reading database data</comment> ({$currentStep}/{$totalSteps})");
 
-        $values = $this->getProductImageValues();
-        $gallery = $this->getProductImageGallery();
+        $values = array_merge($this->getProductMedia(),$this->getProductModelMedia());
 
+        var_dump($values);
+        var_dump($mediaFiles);
         $valuesToRemove = array_diff_key($values, $mediaFiles);
-        $galleryToRemove = array_diff_key($gallery, $mediaFiles);
+        echo count($valuesToRemove);
 
-        $beforeCount = array_reduce(array_merge($values, $gallery), function ($totalCount, $valueIds) {
+        $beforeCount = array_reduce($values, function ($totalCount, $valueIds) {
             return $totalCount + count($valueIds);
         }, 0);
-        $afterCount = $beforeCount - array_reduce(array_merge($valuesToRemove, $galleryToRemove), function ($totalCount, $valueIds) {
+        $afterCount = $beforeCount - array_reduce($values, function ($totalCount, $valueIds) {
                 return $totalCount + count($valueIds);
             }, 0);
 
@@ -243,8 +231,7 @@ class CleanTablesCommand extends AbstractCommand
                     'percent' => 1 - $afterCount / $beforeCount
                 ]
             ],
-            'values' => $valuesToRemove,
-            'gallery' => $galleryToRemove
+            'values' => $valuesToRemove
         ];
     }
 }

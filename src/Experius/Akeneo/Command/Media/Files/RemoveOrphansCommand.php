@@ -105,7 +105,7 @@ class RemoveOrphansCommand extends AbstractCommand
         $this->advanceNextStep();
         !$quiet && $output->writeln("\n<comment>Reading database data</comment> ({$currentStep}/{$totalSteps})");
 
-        $usedMedia = array_merge($this->getProductModelMedia(), $this->getProductMedia());
+        $usedMedia = array_keys(array_merge($this->getProductModelMedia(), $this->getProductMedia()));
 
         $mediaFilesToRemove = [];
         $sizeBefore = 0;

@@ -170,7 +170,12 @@ class AbstractCommand extends AbstractAkeneoCommand
                     foreach ($rawValues[$attribute] as $channel => $localeValue) {
                         foreach ($localeValue as $locale => $val) {
                             if (is_string($val)) {
-                                $usedFiles[] = $val;
+                                $usedFiles[$val] = [
+                                    'attribute' => $attribute,
+                                    'channel' => $channel,
+                                    'locale' => $locale,
+                                    'product' => $product
+                                ];
                             }
                         }
                     }

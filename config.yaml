@@ -37,5 +37,6 @@ commands:
     - Experius\Akeneo\Command\UserManagement\ChangePasswordCommand
     - Experius\Akeneo\Command\UserManagement\CreateUserCommand
     - Experius\Akeneo\Command\Media\Files\RemoveOrphansCommand
+    - Experius\Akeneo\Command\Media\Files\CleanTablesCommand
 
   aliases: []
